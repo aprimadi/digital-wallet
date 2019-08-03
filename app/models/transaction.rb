@@ -12,5 +12,5 @@
 #
 
 class Transaction < ApplicationRecord
-
+  validates :amount, greater_than: 0
 end
