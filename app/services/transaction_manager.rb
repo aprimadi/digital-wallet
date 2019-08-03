@@ -22,7 +22,12 @@ class TransactionManager
   #
   def deposit(wallet, amount)
     assert(amount > 0, "Deposit amount must be greater than 0")
-    Transaction.create!(source_wallet_id: nil, target_wallet_id: wallet.id, amount: amount)
+    ActiveRecord::Base.transaction do
+      # First grab a lock on the target wallet (to make sure that no one is
+      # trying to make a transaction that involves the wallet)
+      wallet.lock!
+      Transaction.create!(source_wallet_id: nil, target_wallet_id: wallet.id, amount: amount)
+    end
   end
 
   #
@@ -36,20 +41,15 @@ class TransactionManager
   #
   def withdraw(wallet, amount)
     assert(amount > 0, "Withdraw amount must be greater than 0")
-    assert(wallet.balance >= amount, "Not enough balance")
-    ActiveRecord::Base.transaction do
+    ActiveRecord::Base.transaction(requires_new: true) do
+      wallet.lock!
+      assert(wallet.balance >= amount, "Not enough balance")
       Transaction.create!(
         source_wallet_id: wallet.id,
         target_wallet_id: nil,
         amount: amount
       )
-
-      # At this point, hacker could possibly force a race condition, thus, we
-      # check if the resulting balance of the wallet is non negative. If it is,
-      # then abort the transaction
-      if wallet.balance < 0
-        raise TransactionError.new("Not enough balance")
-      end
+      assert(wallet.balance >= 0, "Not enough balance")
     end
   end
 
@@ -65,20 +65,16 @@ class TransactionManager
   #
   def transfer(source_wallet, target_wallet, amount)
     assert(amount > 0, "Transfer amount must be greater than 0")
-    assert(source_wallet.balance >= amount, "Not enough balance")
-    ActiveRecord::Base.transaction do
+    ActiveRecord::Base.transaction(requires_new: true) do
+      source_wallet.lock!
+      target_wallet.lock!
+      assert(source_wallet.balance >= amount, "Not enough balance")
       Transaction.create!(
         source_wallet_id: source_wallet.id,
         target_wallet_id: target_wallet.id,
         amount: amount
       )
-
-      # At this point, hacker could possibly force a race condition, thus, we
-      # check if the resulting balance of the wallet is non negative. If it is,
-      # then abort the transaction
-      if source_wallet.balance < 0
-        raise TransactionError.new("Not enough balance")
-      end
+      assert(source_wallet.balance >= 0, "Not enough balance")
     end
   end
 
