@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>README - RDoc Documentation</title>
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+  var index_rel_prefix = "./";
+</script>
+
+<script src="./js/jquery.js"></script>
+<script src="./js/darkfish.js"></script>
+
+<link href="./css/fonts.css" rel="stylesheet">
+<link href="./css/rdoc.css" rel="stylesheet">
+
+
+
+<body id="top" role="document" class="file">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="./index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="./table_of_contents.html#pages">Pages</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </div>
+</div>
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search" spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  
+<div class="nav-section">
+  <h3>Table of Contents</h3>
+
+  <ul class="link-list" role="directory">
+    <li><a href="#label-Digital+Wallet">Digital Wallet</a>
+    <li><a href="#label-Design+Decision">Design Decision</a>
+  </ul>
+</div>
+
+
+  <div id="project-metadata">
+    <div id="fileindex-section" class="nav-section">
+  <h3>Pages</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="./Gemfile.html">Gemfile</a>
+  
+    <li><a href="./Gemfile_lock.html">Gemfile.lock</a>
+  
+    <li><a href="./README_md.html">README</a>
+  
+    <li><a href="./Rakefile.html">Rakefile</a>
+  
+    <li><a href="./app/assets/config/manifest_js.html">manifest.js</a>
+  
+    <li><a href="./app/assets/javascripts/application_js.html">application.js</a>
+  
+    <li><a href="./app/assets/javascripts/cable_js.html">cable.js</a>
+  
+    <li><a href="./app/assets/stylesheets/application_css.html">application.css</a>
+  
+    <li><a href="./config_ru.html">config.ru</a>
+  
+    <li><a href="./config/credentials_yml_enc.html">credentials.yml.enc</a>
+  
+    <li><a href="./config/master_key.html">master.key</a>
+  
+    <li><a href="./log/development_log.html">development.log</a>
+  
+    <li><a href="./log/test_log.html">test.log</a>
+  
+    <li><a href="./package_json.html">package.json</a>
+  
+    <li><a href="./public/404_html.html">404.html</a>
+  
+    <li><a href="./public/422_html.html">422.html</a>
+  
+    <li><a href="./public/500_html.html">500.html</a>
+  
+    <li><a href="./public/apple-touch-icon-precomposed_png.html">apple-touch-icon-precomposed.png</a>
+  
+    <li><a href="./public/apple-touch-icon_png.html">apple-touch-icon.png</a>
+  
+    <li><a href="./public/favicon_ico.html">favicon.ico</a>
+  
+    <li><a href="./public/robots_txt.html">robots</a>
+  
+    <li><a href="./tmp/development_secret_txt.html">development_secret</a>
+  
+  </ul>
+</div>
+
+  </div>
+</nav>
+
+<main role="main" aria-label="Page README.md">
+
+<h1 id="label-Digital+Wallet">Digital <a href="Wallet.html">Wallet</a><span><a href="#label-Digital+Wallet">&para;</a> <a href="#top">&uarr;</a></span></h1>
+
+<p>Goal: Internal wallet transactional system (with a front end)</p>
+
+<p>Requirements: - Based on relationships every entity e.g. <a
+href="User.html">User</a>, <a href="Team.html">Team</a>, <a
+href="Stock.html">Stock</a> or any other should have their own defined
+“wallet” to which we could transfer money or withdraw - Every request for
+credit/debit (deposit or withdraw) should be based on records in database
+for given model - Every instance of a single transaction should have proper
+validations against required fields and their source and target wallet,
+e.g. from who we are taking money and transferring to whom? (Credits ==
+source wallet == nil, Debits == target wallet == nil) - Each record should
+be created in database transactions to comply with ACID standards - Balance
+for given entity (User, <a href="Team.html">Team</a>, <a
+href="Stock.html">Stock</a>) should be calculated by summing records</p>
+
+<p>Tasks: 1. Architect generic wallet solution (money manipulation) between
+entities (User, <a href="Stock.html">Stock</a>, <a
+href="Team.html">Team</a> or any other) 2. Create model relationships and
+validations for achieving proper calculations of every wallet, transactions
+3. Use STI (or any other design pattern) for proper money manipulation</p>
+
+<h2 id="label-Design+Decision">Design Decision<span><a href="#label-Design+Decision">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<ul><li>
+<p>Each entity (User, <a href="Team.html">Team</a>, <a
+href="Stock.html">Stock</a>) has one wallet</p>
+</li><li>
+<p>Each wallet belongs to an entity</p>
+</li><li>
+<p>Money is handled as an integer, the assumption is that we&#39;re creating
+the  application for Indonesian market, in which, the smallest amount of
+money is  Rp. 100. Even if the system is being used to handle USD or AUD,
+it is  beneficial to store money as integer (in cents) rather than as
+floating point  (decimal) because of the way computer stores floating point
+number as an  approximation. I won&#39;t go into details about this but in
+floating point number  representation (0 = 0) might not be true, but
+instead you need to compare it  with range (0 &gt;= 0 - epsilon and 0 &lt;=
+0 + epsilon) where epsilon is a small value for example 0.000001.</p>
+</li></ul>
+</main>
+
+
+
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="https://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.0.1.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+</footer>
+
