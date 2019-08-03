@@ -1,0 +1,55 @@
+{
+  "env": {
+    "production": {
+      "presets": [
+        [
+          "@babel/preset-env",
+          {
+            "targets": {
+              "browsers": ["last 2 versions", "ie >= 10"]
+            },
+            "useBuiltIns": "usage",
+            "debug": false,
+          }
+        ],
+        "@babel/preset-react",
+        "@babel/preset-flow"
+      ],
+      "plugins": ["@babel/plugin-syntax-dynamic-import"]
+    },
+    "development": {
+      "presets": [
+        [
+          "@babel/preset-env",
+          {
+            "targets": {
+              "browsers": ["last 2 versions", "ie >= 10"]
+            },
+            "useBuiltIns": "usage",
+            "debug": false,
+          }
+        ],
+        "@babel/preset-react",
+        "@babel/preset-flow"
+      ],
+      "plugins": ["@babel/plugin-syntax-dynamic-import"]
+    },
+    "test": {
+      "presets": [
+        [
+          "@babel/preset-env",
+          {
+            "targets": {
+              "browsers": ["last 2 versions", "ie >= 10"]
+            },
+            "useBuiltIns": "usage",
+            "debug": false,
+          }
+        ],
+        "@babel/preset-react",
+        "@babel/preset-flow"
+      ],
+      "plugins": ["@babel/plugin-syntax-dynamic-import"]
+    }
+  }
+}

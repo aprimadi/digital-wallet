@@ -11,5 +11,11 @@
 
   <body>
     <%= yield %>
+
+    <% if Rails.env.development? %>
+      <script src="http://localhost:8080/main.js"></script>
+    <% else %>
+      <script src="/main-hash.js"></script>
+    <% end %>
   </body>
 </html>
