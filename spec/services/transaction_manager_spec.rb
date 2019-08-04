@@ -75,9 +75,9 @@ describe TransactionManager do
       threads.each(&:join)
 
       # Only 500 transfers should succeed
-      expect(successful_transfer).to be <= 500
-      expect(source_wallet.balance).to be >= 0
-      expect(target_wallet.balance).to be <= 5000
+      expect(successful_transfer).to eq 500
+      expect(source_wallet.balance).to eq 0
+      expect(target_wallet.balance).to eq 5000
       expect(source_wallet.balance + target_wallet.balance).to eq 5000
     end
   end

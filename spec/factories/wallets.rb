@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :wallet do
-    entity { [User, Team, Stock].sample.new }
+    entity { create([:user, :team, :stock].sample) }
   end
 end

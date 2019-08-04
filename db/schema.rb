@@ -16,8 +16,9 @@ ActiveRecord::Schema.define(version: 2019_08_03_072340) do
   enable_extension "plpgsql"
 
   create_table "entities", force: :cascade do |t|
-    t.string "name"
-    t.string "status"
+    t.string "type", null: false
+    t.string "name", null: false
+    t.string "status", default: "active", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -25,17 +26,19 @@ ActiveRecord::Schema.define(version: 2019_08_03_072340) do
   create_table "transactions", force: :cascade do |t|
     t.integer "source_wallet_id"
     t.integer "target_wallet_id"
-    t.integer "amount"
-    t.string "state"
+    t.integer "amount", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "wallets", force: :cascade do |t|
-    t.integer "entity_id"
-    t.string "guid"
+    t.integer "entity_id", null: false
+    t.string "guid", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "transactions", "wallets", column: "source_wallet_id"
+  add_foreign_key "transactions", "wallets", column: "target_wallet_id"
+  add_foreign_key "wallets", "entities"
 end
