@@ -41,4 +41,8 @@
 @import "components/timepicker";
 
 // Sections
-@import "sections/home";
+@import "sections/landing";
+
+.select-wrapper select {
+  display: none;
+}

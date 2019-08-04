@@ -9,6 +9,7 @@ module.exports = {
     contentBase: './static/js',
     headers: { "Access-Control-Allow-Origin": "*" },
     hot: true,
+    sockPort: 8080,
   },
   output: {
     filename: 'main.js',
