@@ -12,4 +12,13 @@
 
 class Entity < ApplicationRecord
   has_one :wallet
+  after_create :generate_wallet
+
+  private
+
+  def generate_wallet
+    if self.wallet.nil?
+      self.create_wallet
+    end
+  end
 end

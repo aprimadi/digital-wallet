@@ -1,3 +1,5 @@
+import assign from 'lodash/assign'
+import isArray from 'lodash/isArray'
 import mergeWith from 'lodash.mergewith'
 import { combineReducers } from 'redux'
 

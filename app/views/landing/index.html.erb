@@ -1,1 +1,9 @@
 <div id="landing"></div>
+
+<% content_for :inline_javascript do %>
+<script type="text/javascript">
+  window.data = {
+    entities: <%= json_for(@entities).html_safe %>
+  }
+</script>
+<% end %>

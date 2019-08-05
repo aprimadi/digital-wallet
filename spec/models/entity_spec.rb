@@ -1,5 +1,12 @@
 require 'rails_helper'
 
-RSpec.describe Entity, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+describe Entity do
+  describe "on_create" do
+    it "create wallet" do
+      [:user, :team, :stock].each do |entity_type|
+        entity = create(entity_type)
+        expect(user.wallet).to_not be_nil
+      end
+    end
+  end
 end

@@ -5,9 +5,12 @@
 #landing .transactions-panel {
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
 
   .entities-pane {
     display: flex;
+    flex-grow: 1;
   }
   .entities-pane h2 {
     font-size: 16px;
@@ -17,15 +20,30 @@
   }
   .user-pane, .team-pane, .stock-pane {
     flex-grow: 1;
-    min-height: 200px;
-    height: 200px;
     border-left: 1px solid #ccc;
+    overflow-y: scroll;
+
+    table {
+      font-size: 14px;
+    }
+    table tr {
+      margin: 0;
+      border: none;
+    }
+    table td {
+      padding: 2px 10px;
+    }
+    table td:last-child {
+      text-align: right;
+    }
   }
 
   .transaction-pane {
     border-top: 1px solid #ccc;
+    height: 250px;
+    flex-grow: 0;
   }
-  .transaction-pane form {
+  .transaction-pane form, .transaction-pane .form {
     margin: 20px 0;
   }
 }

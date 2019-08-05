@@ -1,4 +1,12 @@
 class ApplicationController < ActionController::Base
+  helper_method :json_for
+
+  def json_for(target, options = {})
+    return nil unless target
+    serializer = options[:serializer] || ActiveModel::Serializer.serializer_for(target, options)
+    options[:url_options] ||= url_options
+    serializer.new(target, options).to_json
+  end
 
   protected
 
@@ -13,12 +21,4 @@ class ApplicationController < ActionController::Base
     render json: { error: error }, status: status
   end
 
-  def json_for(target, options = {})
-    return nil unless target
-    serializer = options[:serializer] || ActiveModel::Serializer.serializer_for(target, options)
-    options[:scope] ||= current_user
-    options[:url_options] ||= url_options
-    serializer.new(target, options).to_json
-  end
-  
 end
