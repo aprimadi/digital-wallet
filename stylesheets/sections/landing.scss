@@ -46,4 +46,22 @@
   .transaction-pane form, .transaction-pane .form {
     margin: 20px 0;
   }
+
+  .error-notification {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: color("red", "lighten-3");
+    text-align: center;
+    padding: 20px;
+
+    i {
+      display: block;
+      float: right;
+    }
+    i:hover {
+      cursor: pointer;
+    }
+  }
 }

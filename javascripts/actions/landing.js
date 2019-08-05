@@ -24,10 +24,12 @@ export function createEntity(type, name) {
       $.get('/entities').done((data) => {
         let response = normalize(data, EntityListSchema)
         dispatch(refreshEntities(response))
-      })
-    }).fail((data) => {
-      // TODO
-    })
+      }).fail(
+        handleAjaxError.bind(null, dispatch)
+      )
+    }).fail(
+      handleAjaxError.bind(null, dispatch)
+    )
   }
 }
 
@@ -41,10 +43,12 @@ export function deposit(entityId, amount) {
       $.get('/entities').done((data) => {
         let response = normalize(data, EntityListSchema)
         dispatch(refreshEntities(response))
-      })
-    }).fail((data) => {
-      // TODO
-    })
+      }).fail(
+        handleAjaxError.bind(null, dispatch)
+      )
+    }).fail(
+      handleAjaxError.bind(null, dispatch)
+    )
   }
 }
 
@@ -58,10 +62,12 @@ export function withdraw(entityId, amount) {
       $.get('/entities').done((data) => {
         let response = normalize(data, EntityListSchema)
         dispatch(refreshEntities(response))
-      })
-    }).fail((data) => {
-      // TODO
-    })
+      }).fail(
+        handleAjaxError.bind(null, dispatch)
+      )
+    }).fail(
+      handleAjaxError.bind(null, dispatch)
+    )
   }
 }
 
@@ -76,9 +82,27 @@ export function transfer(sourceEntityId, targetEntityId, amount) {
       $.get('/entities').done((data) => {
         let response = normalize(data, EntityListSchema)
         dispatch(refreshEntities(response))
-      })
-    }).fail((data) => {
-      // TODO
-    })
+      }).fail(
+        handleAjaxError.bind(null, dispatch)
+      )
+    }).fail(
+      handleAjaxError.bind(null, dispatch)
+    )
+  }
+}
+
+export function setError(error) {
+  return {
+    type: types.SET_ERROR,
+    error: error,
+  }
+}
+
+function handleAjaxError(dispatch, jqXHR, textStatus, errorThrown) {
+  if (jqXHR && jqXHR.responseJSON && jqXHR.responseJSON.error) {
+    console.log(jqXHR.responseJSON.error)
+    dispatch(setError(jqXHR.responseJSON.error))
+  } else {
+    dispatch(setError(errorThrown))
   }
 }

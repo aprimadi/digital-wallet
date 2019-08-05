@@ -3,7 +3,9 @@ import { connect } from 'react-redux'
 import classNames from 'classnames'
 import M from 'materialize-css'
 
-import { createEntity, deposit, withdraw, transfer } from '../actions/landing'
+import {
+  createEntity, deposit, withdraw, transfer, setError
+} from '../actions/landing'
 
 class TransactionsPanel extends Component {
   constructor(...args) {
@@ -171,8 +173,26 @@ class TransactionsPanel extends Component {
 
           {this.renderActiveTabContent()}
         </div>
+
+        {this.renderErrorNotification()}
       </div>
     )
+  }
+
+  renderErrorNotification() {
+    if (this.props.error) {
+      return (
+        <div className='error-notification'>
+          {this.props.error}
+          <i className="material-icons"
+             onClick={this.props.clearError}>
+            close
+          </i>
+        </div>
+      )
+    } else {
+      return null
+    }
   }
 
   renderTabs() {
@@ -370,7 +390,8 @@ let mapStateToProps = (state, props) => {
     entities.push(state.entities.entities[entityId])
   }
   return {
-    entities: entities
+    entities: entities,
+    error: state.landing.error,
   }
 }
 
@@ -387,6 +408,9 @@ let mapDispatchToProps = (dispatch) => {
     },
     transfer: (sourceEntityId, targetEntityId, amount) => {
       dispatch(transfer(sourceEntityId, targetEntityId, amount))
+    },
+    clearError: () => {
+      dispatch(setError(undefined))
     }
   }
 }

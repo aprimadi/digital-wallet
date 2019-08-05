@@ -3,6 +3,8 @@ import isArray from 'lodash/isArray'
 import mergeWith from 'lodash.mergewith'
 import { combineReducers } from 'redux'
 
+import landing from './landing'
+
 function entities(state, action) {
   function customizer(objValue, srcValue) {
     if (isArray(srcValue)) {
@@ -41,6 +43,7 @@ function data(state, action) {
 const appReducer = combineReducers({
   entities,
   data,
+  landing,
 })
 
 const rootReducer = (state, action) => {
