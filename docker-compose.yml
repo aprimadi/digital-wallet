@@ -1,7 +1,4 @@
-version: '1'
-
-volumes:
-  postgres_data: {}
+version: '3.7'
 
 services:
   app:
@@ -12,9 +9,9 @@ services:
       - db
 
   db:
-    image: postgres
+    image: postgres:latest
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - "db-data:/var/lib/postgresql/data"
 
   web:
     build:
@@ -24,3 +21,6 @@ services:
       - app
     ports:
       - 80:80
+
+volumes:
+  db-data:

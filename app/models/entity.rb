@@ -12,6 +12,10 @@
 
 class Entity < ApplicationRecord
   has_one :wallet
+
+  validates :type, presence: true
+  validates :name, presence: true
+
   after_create :generate_wallet
 
   private

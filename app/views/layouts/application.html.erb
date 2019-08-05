@@ -6,8 +6,6 @@
     <%= csp_meta_tag %>
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
@@ -16,7 +14,7 @@
     <% if Rails.env.development? %>
       <script src="http://localhost:8080/main.js"></script>
     <% else %>
-      <script src="/main-hash.js"></script>
+      <script src="/main-d712f274a09b97f6686a.js"></script>
     <% end %>
 
     <%= yield :inline_javascript %>
