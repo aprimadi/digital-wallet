@@ -65,6 +65,7 @@ class TransactionManager
   #
   def transfer(source_wallet, target_wallet, amount)
     assert(amount > 0, "Transfer amount must be greater than 0")
+    assert(source_wallet.id != target_wallet.id, "Target wallet must not be the same as source wallet")
     ActiveRecord::Base.transaction(requires_new: true) do
       source_wallet.lock!
       target_wallet.lock!

@@ -53,6 +53,23 @@ describe TransactionManager do
       expect(target_wallet.balance).to eq 5000
     end
 
+    it "doesn't allow the same source and target with enough balance" do
+      wallet = create(:wallet)
+      tm.deposit(wallet, 5000)
+      expect do
+        tm.transfer(wallet, wallet, 5000)
+      end.to raise_error(TransactionManager::TransactionError)
+      expect(wallet.balance).to eq 5000
+    end
+
+    it "doesn't allow the same source and target with 0 balance" do
+      wallet = create(:wallet)
+      expect do
+        tm.transfer(wallet, wallet, 5000)
+      end.to raise_error(TransactionManager::TransactionError)
+      expect(wallet.balance).to eq 0
+    end
+
     it 'handles race condition gracefully' do
       source_wallet = create(:wallet)
       target_wallet = create(:wallet)

@@ -7,7 +7,7 @@ class TransactionsController < ApplicationController
       entity = Entity.find_by(id: params[:entity_id])
       wallet = entity.try(:wallet)
     end
-    
+
     return api_error("Wallet not found") if wallet.nil?
     return api_error("Invalid amount") if amount <= 0
 
